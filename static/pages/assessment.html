@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Risk Assessment — Credit Ledger</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo-mark"></div>
+      <div class="sidebar-brand-text">
+        <div class="sidebar-brand-name">Credit Ledger</div>
+        <div class="sidebar-brand-sub">AI Credit Risk Platform</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Workspace</div>
+      <a href="/pages/dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i>Overview</a>
+      <a href="/pages/assessment.html" class="nav-link active"><i data-lucide="activity"></i>Risk Assessment</a>
+      <a href="/pages/history.html" class="nav-link"><i data-lucide="clock"></i>History</a>
+      <a href="/pages/model-insights.html" class="nav-link"><i data-lucide="brain-circuit"></i>Model Insights</a>
+      <div class="nav-divider"></div>
+      <div class="nav-section-label">Account</div>
+      <a href="/pages/profile.html" class="nav-link"><i data-lucide="user-circle"></i>Profile</a>
+    </nav>
+    <div class="sidebar-promo">
+      <div class="sidebar-promo-title">AI-Powered Credit Risk Analysis</div>
+      <div class="sidebar-promo-desc">Predict, assess and manage loan default risk with machine learning.</div>
+    </div>
+    <div class="sidebar-bottom">
+      <a href="/" class="sidebar-logout" id="logoutBtn"><i data-lucide="log-out"></i>Log out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══════════════ MAIN ══════════════ -->
+  <div class="main-content">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <button class="topbar-hamburger" id="hamburger"><i data-lucide="menu"></i></button>
+      <div class="topbar-search">
+        <i data-lucide="search"></i>
+        <input type="text" placeholder="Search assessments, applicants…" readonly>
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" id="themeToggle" title="Toggle theme">
+          <i data-lucide="sun" id="themeIcon"></i>
+        </button>
+        <div class="topbar-user" id="topbarUser" style="position:relative">
+          <div class="topbar-avatar" id="topbarAvatar">D</div>
+          <div class="topbar-user-info">
+            <div class="topbar-user-name" id="topbarName">Dhiru Kumar</div>
+            <div class="topbar-user-role">Personal profile</div>
+          </div>
+          <span class="topbar-chevron"><i data-lucide="chevron-down"></i></span>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="/pages/profile.html" class="dropdown-item"><i data-lucide="user"></i> Profile</a>
+            <div class="dropdown-divider"></div>
+            <a href="/" class="dropdown-item danger" id="dropdownLogout"><i data-lucide="log-out"></i> Log out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+      <!-- Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Risk Assessment</h1>
+          <p class="page-subtitle">Evaluate a loan applicant's credit risk using our machine learning model.</p>
+        </div>
+        <div class="model-badge">
+          <i data-lucide="cpu"></i>
+          <strong>Logistic Regression</strong>
+          <div class="badge-sep"></div>
+          ROC-AUC: 0.800
+          <i data-lucide="info" style="cursor:help" title="Trained on 60,000 synthetic credit records. Threshold: 24%."></i>
+        </div>
+      </div>
+
+      <!-- ══ ASSESSMENT LAYOUT ══ -->
+      <div class="assessment-layout" id="assessmentPanel">
+
+        <!-- ── LEFT: Form ── -->
+        <div class="card" id="formCard">
+          <div class="card-header">
+            <div class="card-title">
+              <i data-lucide="file-plus"></i>
+              New Credit Risk Assessment
+            </div>
+          </div>
+          <div class="card-body">
+
+            <!-- Stepper -->
+            <div class="stepper" id="stepper">
+              <div class="step-item" id="stepItem1">
+                <div class="step-bubble active" id="stepBubble1">1</div>
+                <div class="step-line" id="stepLine1"></div>
+                <div class="step-label active" id="stepLabel1">Personal Details</div>
+              </div>
+              <div class="step-item" id="stepItem2">
+                <div class="step-bubble" id="stepBubble2">2</div>
+                <div class="step-line" id="stepLine2"></div>
+                <div class="step-label" id="stepLabel2">Financial Details</div>
+              </div>
+              <div class="step-item" id="stepItem3">
+                <div class="step-bubble" id="stepBubble3">3</div>
+                <div class="step-label" id="stepLabel3">Review & Predict</div>
+              </div>
+            </div>
+
+            <!-- STEP 1: Personal Details -->
+            <div class="form-step active" id="step1">
+              <div class="form-section-title">
+                <i data-lucide="user"></i>
+                Personal Information
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="person_age">Age <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <input class="form-input" type="number" id="person_age" min="18" max="100" step="1" placeholder="e.g. 30">
+                  </div>
+                  <div class="form-hint">Must be between 18 and 100.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="person_emp_length">Employment Length <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <input class="form-input has-suffix" type="number" id="person_emp_length" min="0" max="60" step="0.5" placeholder="e.g. 5">
+                    <span class="input-suffix">yrs</span>
+                  </div>
+                  <div class="form-hint">0–60 years.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="person_income">Annual Income <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">₹</span>
+                    <input class="form-input has-prefix" type="number" id="person_income" min="1" step="1000" placeholder="e.g. 850000">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="person_home_ownership">Home Ownership <span class="required">*</span></label>
+                  <select class="form-select" id="person_home_ownership">
+                    <option value="">Select one</option>
+                    <option value="RENT">Renting</option>
+                    <option value="MORTGAGE">Mortgage</option>
+                    <option value="OWN">Owns outright</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="step-nav">
+                <button type="button" class="btn btn-primary" id="btn1Next">
+                  Continue <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 2: Financial Details -->
+            <div class="form-step" id="step2">
+              <div class="form-section-title">
+                <i data-lucide="landmark"></i>
+                Loan Information
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="loan_amnt">Loan Amount <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">₹</span>
+                    <input class="form-input has-prefix" type="number" id="loan_amnt" min="1" step="500" placeholder="e.g. 200000">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="loan_intent">Loan Purpose <span class="required">*</span></label>
+                  <select class="form-select" id="loan_intent">
+                    <option value="">Select purpose</option>
+                    <option value="PERSONAL">Personal</option>
+                    <option value="EDUCATION">Education</option>
+                    <option value="MEDICAL">Medical</option>
+                    <option value="VENTURE">Venture</option>
+                    <option value="HOMEIMPROVEMENT">Home Improvement</option>
+                    <option value="DEBTCONSOLIDATION">Debt Consolidation</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="loan_int_rate">Interest Rate <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <input class="form-input has-suffix" type="number" id="loan_int_rate" min="0" max="40" step="0.01" placeholder="e.g. 11.5">
+                    <span class="input-suffix">%</span>
+                  </div>
+                  <div class="form-hint">Rate you are considering.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="loan_grade">Loan Grade <span class="required">*</span></label>
+                  <select class="form-select" id="loan_grade">
+                    <option value="">Select grade</option>
+                    <option value="A">A — Excellent</option>
+                    <option value="B">B — Good</option>
+                    <option value="C">C — Fair</option>
+                    <option value="D">D — Below Average</option>
+                    <option value="E">E — Poor</option>
+                    <option value="F">F — Very Poor</option>
+                    <option value="G">G — Worst</option>
+                  </select>
+                  <div class="form-hint">Required by the trained model.</div>
+                </div>
+              </div>
+
+              <div class="form-section-title" style="margin-top:24px">
+                <i data-lucide="credit-card"></i>
+                Credit History
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="cb_person_default_on_file">Previous Default <span class="required">*</span></label>
+                  <select class="form-select" id="cb_person_default_on_file">
+                    <option value="">Select one</option>
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="cb_person_cred_hist_length">Credit History Length <span class="required">*</span></label>
+                  <div class="input-wrapper">
+                    <input class="form-input has-suffix" type="number" id="cb_person_cred_hist_length" min="0" max="60" step="1" placeholder="e.g. 6">
+                    <span class="input-suffix">yrs</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-nav">
+                <button type="button" class="btn btn-secondary" id="btn2Back">
+                  <i data-lucide="arrow-left"></i> Back
+                </button>
+                <button type="button" class="btn btn-primary" id="btn2Next">
+                  Review <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 3: Review & Predict -->
+            <div class="form-step" id="step3">
+              <div class="form-section-title">
+                <i data-lucide="eye"></i>
+                Review Your Information
+              </div>
+
+              <div class="review-section">
+                <div class="review-section-title">Personal</div>
+                <div class="review-row"><span>Age</span><strong id="rv-age">—</strong></div>
+                <div class="review-row"><span>Annual Income</span><strong id="rv-income">—</strong></div>
+                <div class="review-row"><span>Employment Length</span><strong id="rv-emp">—</strong></div>
+                <div class="review-row"><span>Home Ownership</span><strong id="rv-home">—</strong></div>
+              </div>
+
+              <div class="review-section">
+                <div class="review-section-title">Loan & Credit</div>
+                <div class="review-row"><span>Loan Amount</span><strong id="rv-amnt">—</strong></div>
+                <div class="review-row"><span>Purpose</span><strong id="rv-intent">—</strong></div>
+                <div class="review-row"><span>Interest Rate</span><strong id="rv-rate">—</strong></div>
+                <div class="review-row"><span>Loan Grade</span><strong id="rv-grade">—</strong></div>
+                <div class="review-row"><span>Previous Default</span><strong id="rv-default">—</strong></div>
+                <div class="review-row"><span>Credit History</span><strong id="rv-hist">—</strong></div>
+              </div>
+
+              <div id="assessmentError" class="auth-message" style="display:none"></div>
+
+              <div class="step-nav">
+                <button type="button" class="btn btn-secondary" id="btn3Back">
+                  <i data-lucide="arrow-left"></i> Back
+                </button>
+                <button type="button" class="btn btn-primary" id="submitBtn">
+                  <i data-lucide="zap"></i>
+                  <span id="submitText">Run Assessment</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── RIGHT: Summary & Preview ── -->
+        <div class="assessment-col-right">
+
+          <!-- Financial Summary -->
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i data-lucide="bar-chart-2"></i>Financial Summary</div></div>
+            <div class="card-body">
+              <div class="summary-row">
+                <i data-lucide="wallet"></i>
+                <span class="summary-row-label">Annual Income</span>
+                <span class="summary-row-value" id="sum-income">₹—</span>
+              </div>
+              <div class="summary-row">
+                <i data-lucide="landmark"></i>
+                <span class="summary-row-label">Loan Amount</span>
+                <span class="summary-row-value" id="sum-amnt">₹—</span>
+              </div>
+              <div class="summary-row">
+                <i data-lucide="percent"></i>
+                <span class="summary-row-label">Loan / Income Ratio</span>
+                <span class="summary-row-value" id="sum-ratio">—</span>
+              </div>
+              <div class="summary-row">
+                <i data-lucide="trending-up"></i>
+                <span class="summary-row-label">Interest Rate</span>
+                <span class="summary-row-value" id="sum-rate">—</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risk Preview -->
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i data-lucide="shield"></i>Risk Preview (Live)</div></div>
+            <div class="card-body" id="riskPreviewBody">
+
+              <!-- Empty state -->
+              <div class="empty-state" id="gaugeEmpty">
+                <i data-lucide="shield-question"></i>
+                <p>Complete the assessment to calculate credit risk.</p>
+              </div>
+
+              <!-- Gauge -->
+              <div id="gaugeDisplay" style="display:none">
+                <div class="gauge-wrap">
+                  <svg class="gauge-svg" width="200" height="110" viewBox="0 0 200 110">
+                    <path class="gauge-track" d="M20,100 A80,80 0 0,1 180,100" />
+                    <path class="gauge-fill" id="gaugeFill" d="M20,100 A80,80 0 0,1 180,100"
+                          stroke="#6339E8"
+                          stroke-dasharray="251.2"
+                          stroke-dashoffset="251.2"/>
+                  </svg>
+                  <div class="gauge-center">
+                    <div class="gauge-pct" id="gaugePct">0%</div>
+                    <div class="gauge-sub">Default Probability</div>
+                  </div>
+                </div>
+
+                <div style="text-align:center;margin:12px 0">
+                  <span class="badge badge-low" id="gaugeBadge">Low Risk</span>
+                </div>
+
+                <div class="gauge-meta">
+                  <div class="gauge-meta-row">
+                    <span>Decision Threshold</span>
+                    <strong id="gaugeThreshold">24%</strong>
+                  </div>
+                  <div class="gauge-meta-row">
+                    <span>Model</span>
+                    <strong>Logistic Regression</strong>
+                  </div>
+                  <div class="gauge-meta-row">
+                    <span>Model ROC-AUC</span>
+                    <strong>0.800</strong>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div><!-- /assessment-layout -->
+
+      <!-- ══ RESULT SECTION ══ -->
+      <div id="resultSection" style="display:none">
+        <div class="page-header" style="margin-top:0">
+          <div>
+            <h2 class="page-title">Assessment Result</h2>
+            <p class="page-subtitle">Your credit risk assessment has been completed.</p>
+          </div>
+          <button type="button" class="btn btn-secondary" id="newAssessBtn">
+            <i data-lucide="plus"></i> New Assessment
+          </button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+
+          <!-- Result Card -->
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i data-lucide="shield-check"></i>Credit Risk Result</div></div>
+            <div class="card-body" style="text-align:center;padding:32px 24px">
+
+              <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">
+                ESTIMATED DEFAULT PROBABILITY
+              </div>
+
+              <div style="font-size:62px;font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:8px" id="resProbBig">0.0%</div>
+
+              <div style="margin-bottom:24px">
+                <span class="badge badge-low" id="resBadge" style="font-size:14px;padding:6px 18px">Low Risk</span>
+              </div>
+
+              <div style="border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-around">
+                <div>
+                  <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Decision Threshold</div>
+                  <div style="font-weight:700;font-size:16px" id="resThreshold">24%</div>
+                </div>
+                <div style="width:1px;background:var(--border)"></div>
+                <div>
+                  <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Verdict</div>
+                  <div style="font-weight:700;font-size:16px" id="resVerdict">Low Risk</div>
+                </div>
+              </div>
+
+              <ul id="resNotes" style="text-align:left;margin-top:20px;padding-left:0;display:none"></ul>
+
+            </div>
+          </div>
+
+          <!-- Submitted Details -->
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i data-lucide="file-text"></i>Submitted Details</div></div>
+            <div class="card-body" id="resDetails"></div>
+            <div style="padding:0 24px 20px">
+              <a href="/pages/history.html" class="btn btn-secondary w-full">
+                <i data-lucide="clock"></i> View History
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="card" style="border-left:3px solid var(--warning);background:var(--warning-bg);margin-top:20px">
+          <div class="card-body-tight">
+            <strong style="font-size:13px;color:var(--warning)">⚠ Important</strong>
+            <p style="font-size:13px;color:var(--text-secondary);margin-top:4px;line-height:1.55">
+              This is an informational pre-assessment. It is not a loan approval, rejection,
+              or guarantee of credit eligibility. Formal applications may involve additional lender-specific checks.
+            </p>
+          </div>
+        </div>
+      </div><!-- /resultSection -->
+
+    </div><!-- /page-body -->
+  </div><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<div id="toast-container"></div>
+
+<script>
+// ── Theme ──
+const savedTheme = localStorage.getItem('cl-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+// ── Session (default to Dhiru Kumar if not logged in) ──
+const session = JSON.parse(localStorage.getItem('cl_session') || 'null') || { name: 'Dhiru Kumar', email: 'dhiru@example.com' };
+
+// ── User ──
+if (session) {
+  const name = session.name || 'User';
+  const initials = name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('topbarAvatar').textContent = initials;
+  document.getElementById('topbarName').textContent   = name;
+}
+
+// ── Toast ──
+function toast(type, title, msg) {
+  const icons = { success: 'check-circle', error: 'x-circle', info: 'info' };
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<div class="toast-icon"><i data-lucide="${icons[type]||'info'}"></i></div>
+    <div><div class="toast-title">${title}</div>${msg?`<div class="toast-msg">${msg}</div>`:''}`;
+  document.getElementById('toast-container').appendChild(el);
+  lucide.createIcons();
+  setTimeout(() => el.remove(), 4000);
+}
+
+// ── Form state ──
+let currentStep = 1;
+const STEPS = 3;
+const TOTAL_ARC = 251.2; // approx circumference of gauge path
+
+function formatINR(n) {
+  if (!n && n !== 0) return '—';
+  const digits = Math.round(n).toString();
+  if (digits.length > 3) {
+    const head = digits.slice(0, -3).replace(/\B(?=(\d\d)+(?!\d))/g, ',');
+    return '₹' + head + ',' + digits.slice(-3);
+  }
+  return '₹' + digits;
+}
+
+function val(id) { return document.getElementById(id)?.value.trim() || ''; }
+
+// ── Update Summary ──
+function updateSummary() {
+  const income = parseFloat(val('person_income')) || 0;
+  const amnt   = parseFloat(val('loan_amnt')) || 0;
+  const rate   = parseFloat(val('loan_int_rate')) || 0;
+  const ratio  = income > 0 ? ((amnt / income) * 100).toFixed(1) + '%' : '—';
+
+  document.getElementById('sum-income').textContent = income ? formatINR(income) : '₹—';
+  document.getElementById('sum-amnt').textContent   = amnt   ? formatINR(amnt)   : '₹—';
+  document.getElementById('sum-ratio').textContent  = ratio;
+  document.getElementById('sum-rate').textContent   = rate ? rate + '%' : '—';
+}
+
+// ── Gauge ──
+function animateGauge(probability, threshold) {
+  document.getElementById('gaugeEmpty').style.display = 'none';
+  document.getElementById('gaugeDisplay').style.display = 'block';
+
+  const pct = probability * 100;
+  const isHigh = probability >= threshold;
+  const color = pct < 20 ? '#22C55E' : pct < threshold * 100 ? '#F59E0B' : '#EF4444';
+
+  document.getElementById('gaugeFill').setAttribute('stroke', color);
+  document.getElementById('gaugeThreshold').textContent = (threshold * 100).toFixed(0) + '%';
+
+  // Animate
+  let start = null;
+  const fill = document.getElementById('gaugeFill');
+  function animate(ts) {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / 900, 1);
+    const offset = TOTAL_ARC - (TOTAL_ARC * probability * progress);
+    fill.setAttribute('stroke-dashoffset', offset.toFixed(2));
+    if (progress < 1) requestAnimationFrame(animate);
+    document.getElementById('gaugePct').textContent = (probability * 100 * progress).toFixed(1) + '%';
+  }
+  requestAnimationFrame(animate);
+
+  const badge = document.getElementById('gaugeBadge');
+  badge.textContent = isHigh ? 'High Risk' : 'Low Risk';
+  badge.className   = 'badge ' + (isHigh ? 'badge-high' : 'badge-low');
+}
+
+// ── Step navigation ──
+function goToStep(n) {
+  document.getElementById('step' + currentStep).classList.remove('active');
+
+  ['stepBubble', 'stepLabel'].forEach(prefix => {
+    const el = document.getElementById(prefix + currentStep);
+    el.classList.remove('active');
+    if (n > currentStep) el.classList.add('done');
+  });
+
+  if (currentStep < 3) {
+    const line = document.getElementById('stepLine' + currentStep);
+    if (n > currentStep) line.classList.add('done');
+    else line.classList.remove('done');
+  }
+
+  currentStep = n;
+  document.getElementById('step' + n).classList.add('active');
+  document.getElementById('stepBubble' + n).classList.add('active');
+  document.getElementById('stepLabel' + n).classList.add('active');
+  lucide.createIcons();
+}
+
+function validateStep1() {
+  const age  = parseInt(val('person_age'), 10);
+  const inc  = parseFloat(val('person_income'));
+  const emp  = val('person_emp_length');
+  const home = val('person_home_ownership');
+  if (!age || age < 18 || age > 100) { alert('Please enter a valid age (18–100).'); return false; }
+  if (!inc || inc <= 0)               { alert('Please enter a valid annual income.'); return false; }
+  if (emp === '')                     { alert('Please enter your employment length.'); return false; }
+  if (!home)                          { alert('Please select your home ownership status.'); return false; }
+  return true;
+}
+
+function validateStep2() {
+  if (!val('loan_amnt'))                     { alert('Please enter the loan amount.'); return false; }
+  if (!val('loan_intent'))                   { alert('Please select the loan purpose.'); return false; }
+  if (!val('loan_int_rate'))                 { alert('Please enter the interest rate.'); return false; }
+  if (!val('loan_grade'))                    { alert('Please select the loan grade.'); return false; }
+  if (!val('cb_person_default_on_file'))     { alert('Please select previous default status.'); return false; }
+  if (val('cb_person_cred_hist_length')==='') { alert('Please enter credit history length.'); return false; }
+  return true;
+}
+
+function intentLabel(v) {
+  const m = {PERSONAL:'Personal',EDUCATION:'Education',MEDICAL:'Medical',VENTURE:'Venture',HOMEIMPROVEMENT:'Home Improvement',DEBTCONSOLIDATION:'Debt Consolidation'};
+  return m[v] || v;
+}
+
+function homeLabel(v) {
+  const m = {RENT:'Renting',OWN:'Owns outright',MORTGAGE:'Mortgage',OTHER:'Other'};
+  return m[v] || v;
+}
+
+function populateReview() {
+  document.getElementById('rv-age').textContent    = val('person_age') + ' years';
+  document.getElementById('rv-income').textContent = formatINR(parseFloat(val('person_income')));
+  document.getElementById('rv-emp').textContent    = val('person_emp_length') + ' years';
+  document.getElementById('rv-home').textContent   = homeLabel(val('person_home_ownership'));
+  document.getElementById('rv-amnt').textContent   = formatINR(parseFloat(val('loan_amnt')));
+  document.getElementById('rv-intent').textContent = intentLabel(val('loan_intent'));
+  document.getElementById('rv-rate').textContent   = val('loan_int_rate') + '%';
+  document.getElementById('rv-grade').textContent  = val('loan_grade');
+  document.getElementById('rv-default').textContent = val('cb_person_default_on_file') === 'Y' ? 'Yes' : 'No';
+  document.getElementById('rv-hist').textContent   = val('cb_person_cred_hist_length') + ' years';
+}
+
+// ── Listeners ──
+document.getElementById('btn1Next').addEventListener('click', () => {
+  if (validateStep1()) goToStep(2);
+});
+
+document.getElementById('btn2Back').addEventListener('click', () => goToStep(1));
+document.getElementById('btn2Next').addEventListener('click', () => {
+  if (validateStep2()) { populateReview(); goToStep(3); }
+});
+
+document.getElementById('btn3Back').addEventListener('click', () => goToStep(2));
+
+// ── Auto-update summary on input ──
+['person_income','loan_amnt','loan_int_rate'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateSummary);
+});
+
+// ── Submit ──
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const errorDiv = document.getElementById('assessmentError');
+  errorDiv.style.display = 'none';
+  errorDiv.className = 'auth-message';
+
+  const submitBtn  = document.getElementById('submitBtn');
+  const submitText = document.getElementById('submitText');
+  submitBtn.disabled = true;
+  submitText.textContent = 'Running…';
+
+  const income = parseFloat(val('person_income'));
+  const amnt   = parseFloat(val('loan_amnt'));
+
+  const payload = {
+    person_age:                  parseInt(val('person_age'), 10),
+    person_income:               income,
+    person_home_ownership:       val('person_home_ownership'),
+    person_emp_length:           parseFloat(val('person_emp_length')),
+    loan_intent:                 val('loan_intent'),
+    loan_grade:                  val('loan_grade'),
+    loan_amnt:                   amnt,
+    loan_int_rate:               parseFloat(val('loan_int_rate')),
+    loan_percent_income:         income > 0 ? parseFloat((amnt / income).toFixed(2)) : 0,
+    cb_person_default_on_file:   val('cb_person_default_on_file'),
+    cb_person_cred_hist_length:  parseInt(val('cb_person_cred_hist_length'), 10),
+  };
+
+  try {
+    const res  = await fetch('/predict', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.detail || 'Prediction failed.');
+
+    // ── Save to history ──
+    const assessments = JSON.parse(localStorage.getItem('cl_assessments') || '[]');
+    assessments.push({ ...data, ...payload, timestamp: new Date().toISOString() });
+    localStorage.setItem('cl_assessments', JSON.stringify(assessments));
+
+    // ── Show result ──
+    showResult(data, payload);
+    toast('success', 'Assessment Complete', `Default probability: ${(data.default_probability*100).toFixed(1)}%`);
+
+  } catch(err) {
+    errorDiv.textContent = err.message || 'Something went wrong. Is the API running?';
+    errorDiv.className   = 'auth-message error';
+    errorDiv.style.display = 'block';
+    toast('error', 'Assessment Failed', err.message);
+  } finally {
+    submitBtn.disabled = false;
+    submitText.textContent = 'Run Assessment';
+    lucide.createIcons();
+  }
+});
+
+function showResult(data, payload) {
+  // Hide assessment panel, show result
+  document.getElementById('assessmentPanel').style.display = 'none';
+  const rs = document.getElementById('resultSection');
+  rs.style.display = 'block';
+
+  const pct    = (data.default_probability * 100).toFixed(1) + '%';
+  const isHigh = data.default_prediction === 1;
+
+  document.getElementById('resProbBig').textContent   = pct;
+  document.getElementById('resThreshold').textContent = (data.threshold * 100).toFixed(0) + '%';
+  document.getElementById('resVerdict').textContent   = data.Result;
+
+  const badge = document.getElementById('resBadge');
+  badge.textContent = isHigh ? 'High Risk' : 'Low Risk';
+  badge.className   = 'badge ' + (isHigh ? 'badge-high' : 'badge-low');
+  badge.style.fontSize = '14px'; badge.style.padding = '6px 18px';
+
+  // Notes
+  const notesList = document.getElementById('resNotes');
+  notesList.innerHTML = '';
+  if (data.notes && data.notes.length > 0) {
+    notesList.style.display = 'block';
+    data.notes.forEach(n => {
+      const li = document.createElement('li');
+      li.textContent = '⚠ ' + n;
+      li.style.cssText = 'font-size:12.5px;color:var(--warning);padding:5px 0;border-bottom:1px solid var(--border)';
+      notesList.appendChild(li);
+    });
+  }
+
+  // Details
+  document.getElementById('resDetails').innerHTML = `
+    <div class="profile-field-row"><span class="label">Age</span><span class="value">${payload.person_age} years</span></div>
+    <div class="profile-field-row"><span class="label">Annual Income</span><span class="value">${formatINR(payload.person_income)}</span></div>
+    <div class="profile-field-row"><span class="label">Home Ownership</span><span class="value">${homeLabel(payload.person_home_ownership)}</span></div>
+    <div class="profile-field-row"><span class="label">Employment</span><span class="value">${payload.person_emp_length} years</span></div>
+    <div class="profile-field-row"><span class="label">Loan Amount</span><span class="value">${formatINR(payload.loan_amnt)}</span></div>
+    <div class="profile-field-row"><span class="label">Loan Purpose</span><span class="value">${intentLabel(payload.loan_intent)}</span></div>
+    <div class="profile-field-row"><span class="label">Interest Rate</span><span class="value">${payload.loan_int_rate}%</span></div>
+    <div class="profile-field-row"><span class="label">Loan Grade</span><span class="value">${payload.loan_grade}</span></div>
+    <div class="profile-field-row"><span class="label">Previous Default</span><span class="value">${payload.cb_person_default_on_file === 'Y' ? 'Yes' : 'No'}</span></div>
+    <div class="profile-field-row" style="border:none"><span class="label">Credit History</span><span class="value">${payload.cb_person_cred_hist_length} years</span></div>
+  `;
+
+  rs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  lucide.createIcons();
+}
+
+// ── New Assessment ──
+document.getElementById('newAssessBtn').addEventListener('click', () => {
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('assessmentPanel').style.display = 'grid';
+
+  // Reset form
+  ['person_age','person_income','person_home_ownership','person_emp_length',
+   'loan_amnt','loan_intent','loan_int_rate','loan_grade',
+   'cb_person_default_on_file','cb_person_cred_hist_length'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { if (el.tagName === 'SELECT') el.selectedIndex = 0; else el.value = ''; }
+  });
+
+  // Reset stepper visually
+  for (let i = 1; i <= 3; i++) {
+    document.getElementById('stepBubble'+i).classList.remove('active','done');
+    document.getElementById('stepLabel'+i).classList.remove('active','done');
+    document.getElementById('step'+i).classList.remove('active');
+    if (i < 3) { const l = document.getElementById('stepLine'+i); l.classList.remove('done','active'); }
+  }
+  currentStep = 1;
+  document.getElementById('step1').classList.add('active');
+  document.getElementById('stepBubble1').classList.add('active');
+  document.getElementById('stepLabel1').classList.add('active');
+  document.getElementById('gaugeEmpty').style.display = 'block';
+  document.getElementById('gaugeDisplay').style.display = 'none';
+  updateSummary();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  lucide.createIcons();
+});
+
+// ── Sidebar / Theme ──
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('show');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+});
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('cl-theme', next);
+  document.getElementById('themeIcon').setAttribute('data-lucide', next === 'dark' ? 'moon' : 'sun');
+  lucide.createIcons();
+});
+
+document.getElementById('topbarUser').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('userDropdown').classList.toggle('show');
+});
+document.addEventListener('click', () => document.getElementById('userDropdown').classList.remove('show'));
+
+document.getElementById('logoutBtn').addEventListener('click', e => {
+  e.preventDefault();
+  localStorage.removeItem('cl_session');
+  window.location.href = '/';
+});
+document.getElementById('dropdownLogout').addEventListener('click', e => {
+  e.preventDefault();
+  localStorage.removeItem('cl_session');
+  window.location.href = '/';
+});
+
+// ── Init ──
+lucide.createIcons();
+const themeIcon = document.getElementById('themeIcon');
+themeIcon.setAttribute('data-lucide', savedTheme === 'dark' ? 'moon' : 'sun');
+lucide.createIcons();
+updateSummary();
+</script>
+
+</body>
+</html>

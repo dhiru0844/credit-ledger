@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment History — Credit Ledger</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo-mark"></div>
+      <div class="sidebar-brand-text">
+        <div class="sidebar-brand-name">Credit Ledger</div>
+        <div class="sidebar-brand-sub">AI Credit Risk Platform</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Workspace</div>
+      <a href="/pages/dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i>Overview</a>
+      <a href="/pages/assessment.html" class="nav-link"><i data-lucide="activity"></i>Risk Assessment</a>
+      <a href="/pages/history.html" class="nav-link active"><i data-lucide="clock"></i>History</a>
+      <a href="/pages/model-insights.html" class="nav-link"><i data-lucide="brain-circuit"></i>Model Insights</a>
+      <div class="nav-divider"></div>
+      <div class="nav-section-label">Account</div>
+      <a href="/pages/profile.html" class="nav-link"><i data-lucide="user-circle"></i>Profile</a>
+    </nav>
+    <div class="sidebar-promo">
+      <div class="sidebar-promo-title">AI-Powered Credit Risk Analysis</div>
+      <div class="sidebar-promo-desc">Predict, assess and manage loan default risk with machine learning.</div>
+    </div>
+    <div class="sidebar-bottom">
+      <a href="/" class="sidebar-logout" id="logoutBtn"><i data-lucide="log-out"></i>Log out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main-content">
+
+    <div class="topbar">
+      <button class="topbar-hamburger" id="hamburger"><i data-lucide="menu"></i></button>
+      <div class="topbar-search">
+        <i data-lucide="search"></i>
+        <input type="text" id="searchInput" placeholder="Search by purpose, verdict…">
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" id="themeToggle" title="Toggle theme"><i data-lucide="sun" id="themeIcon"></i></button>
+        <div class="topbar-user" id="topbarUser" style="position:relative">
+          <div class="topbar-avatar" id="topbarAvatar">D</div>
+          <div class="topbar-user-info">
+            <div class="topbar-user-name" id="topbarName">Dhiru Kumar</div>
+            <div class="topbar-user-role">Personal profile</div>
+          </div>
+          <span class="topbar-chevron"><i data-lucide="chevron-down"></i></span>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="/pages/profile.html" class="dropdown-item"><i data-lucide="user"></i> Profile</a>
+            <div class="dropdown-divider"></div>
+            <a href="/" class="dropdown-item danger" id="dropdownLogout"><i data-lucide="log-out"></i> Log out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Assessment History</h1>
+          <p class="page-subtitle">Review your previous credit risk assessments.</p>
+        </div>
+        <a href="/pages/assessment.html" class="btn btn-primary">
+          <i data-lucide="plus"></i> New Assessment
+        </a>
+      </div>
+
+      <!-- KPI Row -->
+      <div class="kpi-grid" style="margin-bottom:24px">
+        <div class="kpi-card">
+          <div class="kpi-top"><div class="kpi-label">Total Assessments</div><div class="kpi-icon purple"><i data-lucide="file-text"></i></div></div>
+          <div class="kpi-value" id="hkpiTotal">0</div>
+          <div class="kpi-sub">Completed assessments</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top"><div class="kpi-label">Low Risk</div><div class="kpi-icon success"><i data-lucide="shield-check"></i></div></div>
+          <div class="kpi-value" id="hkpiLow" style="color:var(--success)">0</div>
+          <div class="kpi-sub">Below threshold</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top"><div class="kpi-label">High Risk</div><div class="kpi-icon danger"><i data-lucide="alert-triangle"></i></div></div>
+          <div class="kpi-value" id="hkpiHigh" style="color:var(--danger)">0</div>
+          <div class="kpi-sub">Above threshold</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top"><div class="kpi-label">Latest Probability</div><div class="kpi-icon warning"><i data-lucide="percent"></i></div></div>
+          <div class="kpi-value" id="hkpiLatest">—</div>
+          <div class="kpi-sub">Most recent assessment</div>
+        </div>
+      </div>
+
+      <!-- Table Card -->
+      <div class="card">
+        <div class="card-header" style="justify-content:space-between;padding-bottom:0">
+          <div class="card-title"><i data-lucide="table"></i>Your Assessments</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="low">Low Risk</button>
+            <button class="filter-btn" data-filter="high">High Risk</button>
+          </div>
+        </div>
+
+        <div class="card-body" style="padding-top:14px">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date &amp; Time</th>
+                  <th>Purpose</th>
+                  <th>Loan Amount</th>
+                  <th>Probability</th>
+                  <th>Verdict</th>
+                  <th>Threshold</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="historyTable">
+                <tr>
+                  <td colspan="7" style="text-align:center;padding:48px;color:var(--text-muted)">
+                    <div><i data-lucide="inbox" style="width:36px;height:36px;opacity:.5;display:block;margin:0 auto 10px"></i></div>
+                    No assessments yet.
+                    <a href="/pages/assessment.html" style="color:var(--purple);font-weight:600;margin-left:4px">Start your first →</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="tableCount" style="font-size:12px;color:var(--text-muted);padding:12px 0 0;text-align:right"></div>
+        </div>
+      </div>
+
+      <!-- Info Section -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px">
+        <div class="card">
+          <div class="card-body">
+            <div style="font-size:28px;font-weight:800;color:var(--purple-light);letter-spacing:-.04em;margin-bottom:10px">01</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px">What does probability mean?</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">The percentage is the model's estimated probability that the applicant may default on the loan based on the submitted information.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div style="font-size:28px;font-weight:800;color:var(--purple-light);letter-spacing:-.04em;margin-bottom:10px">02</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px">What is the threshold?</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">The threshold (24%) is the probability cutoff the model uses to classify an assessment as Low Risk or High Risk.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div style="font-size:28px;font-weight:800;color:var(--purple-light);letter-spacing:-.04em;margin-bottom:10px">03</div>
+            <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px">Remember</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">These results are informational and do not guarantee loan approval or rejection by any lender.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+const savedTheme = localStorage.getItem('cl-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+const session = JSON.parse(localStorage.getItem('cl_session') || 'null') || { name: 'Dhiru Kumar', email: 'dhiru@example.com' };
+
+if (session) {
+  const name = session.name || 'User';
+  const initials = name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('topbarAvatar').textContent = initials;
+  document.getElementById('topbarName').textContent   = name;
+}
+
+function formatINR(n) {
+  if (!n) return '—';
+  const digits = Math.round(n).toString();
+  if (digits.length > 3) {
+    const head = digits.slice(0, -3).replace(/\B(?=(\d\d)+(?!\d))/g, ',');
+    return '₹' + head + ',' + digits.slice(-3);
+  }
+  return '₹' + digits;
+}
+
+function intentLabel(v) {
+  const m = {PERSONAL:'Personal',EDUCATION:'Education',MEDICAL:'Medical',VENTURE:'Venture',HOMEIMPROVEMENT:'Home Improvement',DEBTCONSOLIDATION:'Debt Consolidation'};
+  return m[v] || v || '—';
+}
+
+let allRecords = [];
+let activeFilter = 'all';
+let searchQuery  = '';
+
+function getHistory() {
+  return JSON.parse(localStorage.getItem('cl_assessments') || '[]').reverse();
+}
+
+function populateKPIs(records) {
+  const all   = records;
+  const low   = all.filter(a => a.Result === 'Low Risk').length;
+  const high  = all.filter(a => a.Result === 'High Risk').length;
+  const latest = all.length ? (all[0].default_probability * 100).toFixed(1) + '%' : '—';
+  document.getElementById('hkpiTotal').textContent  = all.length;
+  document.getElementById('hkpiLow').textContent    = low;
+  document.getElementById('hkpiHigh').textContent   = high;
+  document.getElementById('hkpiLatest').textContent = latest;
+}
+
+function renderTable(records) {
+  const tbody = document.getElementById('historyTable');
+  document.getElementById('tableCount').textContent = records.length ? `Showing ${records.length} record${records.length!==1?'s':''}` : '';
+
+  if (!records.length) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:48px;color:var(--text-muted)">
+      <div><i data-lucide="inbox" style="width:36px;height:36px;opacity:.5;display:block;margin:0 auto 10px"></i></div>
+      No matching assessments found.
+    </td></tr>`;
+    lucide.createIcons();
+    return;
+  }
+
+  tbody.innerHTML = records.map((a, i) => {
+    const isHigh = a.Result === 'High Risk';
+    const pct    = ((a.default_probability||0)*100).toFixed(1) + '%';
+    const thr    = ((a.threshold||0.24)*100).toFixed(0) + '%';
+    const dt     = new Date(a.timestamp||Date.now());
+    const date   = dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+    const time   = dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    return `<tr>
+      <td><strong>${date}</strong><span class="sub">${time}</span></td>
+      <td>${intentLabel(a.loan_intent)}</td>
+      <td>${formatINR(a.loan_amnt)}</td>
+      <td><strong>${pct}</strong></td>
+      <td><span class="badge ${isHigh?'badge-high':'badge-low'}">${a.Result||'—'}</span></td>
+      <td>${thr}</td>
+      <td><span class="badge badge-muted">Complete</span></td>
+    </tr>`;
+  }).join('');
+  lucide.createIcons();
+}
+
+function applyFilters() {
+  let filtered = [...allRecords];
+  if (activeFilter === 'low')  filtered = filtered.filter(a => a.Result === 'Low Risk');
+  if (activeFilter === 'high') filtered = filtered.filter(a => a.Result === 'High Risk');
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(a =>
+      (intentLabel(a.loan_intent)||'').toLowerCase().includes(q) ||
+      (a.Result||'').toLowerCase().includes(q)
+    );
+  }
+  renderTable(filtered);
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  applyFilters();
+});
+
+// Sidebar / Theme
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('show');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+});
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('cl-theme', next);
+  document.getElementById('themeIcon').setAttribute('data-lucide', next === 'dark' ? 'moon' : 'sun');
+  lucide.createIcons();
+});
+
+document.getElementById('topbarUser').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('userDropdown').classList.toggle('show');
+});
+document.addEventListener('click', () => document.getElementById('userDropdown').classList.remove('show'));
+
+document.getElementById('logoutBtn').addEventListener('click', e => { e.preventDefault(); localStorage.removeItem('cl_session'); window.location.href = '/'; });
+document.getElementById('dropdownLogout').addEventListener('click', e => { e.preventDefault(); localStorage.removeItem('cl_session'); window.location.href = '/'; });
+
+// Init
+lucide.createIcons();
+document.getElementById('themeIcon').setAttribute('data-lucide', savedTheme === 'dark' ? 'moon' : 'sun');
+lucide.createIcons();
+
+allRecords = getHistory();
+populateKPIs(allRecords);
+applyFilters();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — Credit Ledger</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+
+  <div class="auth-page">
+
+    <!-- ── LEFT PANEL ── -->
+    <div class="auth-left">
+
+      <div class="auth-brand">
+        <div class="auth-brand-mark"></div>
+        <div>
+          <div class="auth-brand-name">Credit Ledger</div>
+          <div class="auth-brand-sub">AI Credit Risk Platform</div>
+        </div>
+      </div>
+
+      <div class="auth-hero">
+        <div class="auth-eyebrow">Your Credit Profile</div>
+        <h1 class="auth-heading">Understand<br><em>before you apply.</em></h1>
+        <p class="auth-desc">
+          Create your account and keep your credit assessments
+          in one private, secure place. No formal application required.
+        </p>
+
+        <div class="auth-features">
+          <div class="auth-feature">
+            <div class="auth-feature-icon">
+              <i data-lucide="zap"></i>
+            </div>
+            <span>Instant assessment results</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature-icon">
+              <i data-lucide="history"></i>
+            </div>
+            <span>Full assessment history saved</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature-icon">
+              <i data-lucide="user-check"></i>
+            </div>
+            <span>Personal, private, and free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-footnote">Simple · Private · Informational</div>
+
+    </div>
+
+    <!-- ── RIGHT PANEL ── -->
+    <div class="auth-right">
+      <div class="auth-form-box">
+
+        <h2 class="auth-form-title">Create account</h2>
+        <p class="auth-form-sub">Set up your profile to start your credit journey.</p>
+
+        <form id="registerForm" autocomplete="off" novalidate>
+
+          <div class="auth-form-group">
+            <label class="form-label" for="name">Full name</label>
+            <input class="form-input" type="text" id="name" name="name" placeholder="Dhiru Kumar" required
+              autocomplete="name">
+          </div>
+
+          <div class="auth-form-group">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required
+              autocomplete="email">
+          </div>
+
+          <div class="auth-form-group">
+            <label class="form-label" for="password">Password</label>
+            <div class="password-wrapper">
+              <input class="form-input" type="password" id="password" name="password"
+                placeholder="Create a password (min. 8 chars)" minlength="8" required style="padding-right:44px">
+              <button type="button" class="password-toggle" id="pwToggle" aria-label="Toggle password">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+            <div class="form-hint">Use at least 8 characters.</div>
+          </div>
+
+          <div class="auth-form-group">
+            <label class="form-label" for="confirmPassword">Confirm password</label>
+            <input class="form-input" type="password" id="confirmPassword" name="confirmPassword"
+              placeholder="Repeat your password" minlength="8" required>
+          </div>
+
+          <div id="registerMessage" class="auth-message"></div>
+
+          <button type="submit" class="btn btn-primary btn-lg auth-submit" id="registerBtn">
+            <i data-lucide="user-plus"></i>
+            Create account
+          </button>
+
+        </form>
+
+        <div class="auth-divider">
+          <hr><span>Already have an account?</span>
+          <hr>
+        </div>
+
+        <a href="/pages/login.html" class="auth-link-btn">Sign in</a>
+
+        <p class="auth-disclaimer">
+          By continuing, you understand that Credit Ledger provides
+          an informational assessment, not a lending decision.
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script>
+    const savedTheme = localStorage.getItem('cl-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+  <script src="/js/auth.js"></script>
+  <script>
+    lucide.createIcons();
+
+    const pwToggle = document.getElementById('pwToggle');
+    const pwInput = document.getElementById('password');
+    if (pwToggle) {
+      pwToggle.addEventListener('click', () => {
+        const show = pwInput.type === 'password';
+        pwInput.type = show ? 'text' : 'password';
+        pwToggle.innerHTML = show ? '<i data-lucide="eye-off"></i>' : '<i data-lucide="eye"></i>';
+        lucide.createIcons();
+      });
+    }
+
+    const registerForm = document.getElementById('registerForm');
+    const registerMsg = document.getElementById('registerMessage');
+    const registerBtn = document.getElementById('registerBtn');
+
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+
+    registerForm.addEventListener('submit', e => {
+      e.preventDefault();
+      registerMsg.className = 'auth-message';
+      registerMsg.textContent = '';
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const pw = document.getElementById('password').value;
+      const pw2 = document.getElementById('confirmPassword').value;
+
+      if (!name || !email || !pw || !pw2) {
+        registerMsg.textContent = 'Please fill in all fields.';
+        registerMsg.className = 'auth-message error';
+        return;
+      }
+
+      if (pw.length < 8) {
+        registerMsg.textContent = 'Password must be at least 8 characters.';
+        registerMsg.className = 'auth-message error';
+        return;
+      }
+
+      if (pw !== pw2) {
+        registerMsg.textContent = 'Passwords do not match.';
+        registerMsg.className = 'auth-message error';
+        return;
+      }
+
+      registerBtn.disabled = true;
+      registerBtn.innerHTML = '<i data-lucide="loader-2" style="animation:spin 1s linear infinite"></i> Creating…';
+      lucide.createIcons();
+
+      setTimeout(() => {
+        const users = JSON.parse(localStorage.getItem('cl_users') || '[]');
+        if (users.find(u => u.email === email)) {
+          registerMsg.textContent = 'An account with this email already exists.';
+          registerMsg.className = 'auth-message error';
+          registerBtn.disabled = false;
+          registerBtn.innerHTML = '<i data-lucide="user-plus"></i> Create account';
+          lucide.createIcons();
+          return;
+        }
+
+        users.push({ name, email, password: pw, since: new Date().toISOString() });
+        localStorage.setItem('cl_users', JSON.stringify(users));
+        localStorage.setItem('cl_session', JSON.stringify({ name, email }));
+        window.location.href = '/pages/dashboard.html';
+      }, 900);
+    });
+  </script>
+
+</body>
+
+</html>

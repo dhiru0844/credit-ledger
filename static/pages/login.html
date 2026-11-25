@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Credit Ledger</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+
+  <div class="auth-page" id="authPage">
+
+    <!-- ── LEFT PANEL ── -->
+    <div class="auth-left">
+
+      <div class="auth-brand">
+        <div class="auth-brand-mark"></div>
+        <div>
+          <div class="auth-brand-name">Credit Ledger</div>
+          <div class="auth-brand-sub">AI Credit Risk Platform</div>
+        </div>
+      </div>
+
+      <div class="auth-hero">
+        <div class="auth-eyebrow">Pre-Loan Credit Assessment</div>
+        <h1 class="auth-heading">Know where<br><em>you stand.</em></h1>
+        <p class="auth-desc">
+          Check your estimated credit risk before making a formal
+          loan application. Instant, private, and powered by ML.
+        </p>
+
+        <div class="auth-features">
+          <div class="auth-feature">
+            <div class="auth-feature-icon">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <span>AI-powered risk assessment engine</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature-icon">
+              <i data-lucide="bar-chart-2"></i>
+            </div>
+            <span>Logistic Regression model · ROC-AUC 0.800</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature-icon">
+              <i data-lucide="lock"></i>
+            </div>
+            <span>Informational only · Not a lending decision</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-footnote">Model online · Informational pre-assessment</div>
+
+    </div>
+
+    <!-- ── RIGHT PANEL ── -->
+    <div class="auth-right">
+      <div class="auth-form-box">
+
+        <h2 class="auth-form-title">Welcome back</h2>
+        <p class="auth-form-sub">Sign in to your Credit Ledger account.</p>
+
+        <form id="loginForm" autocomplete="off" novalidate>
+
+          <div class="auth-form-group">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required
+              autocomplete="email">
+          </div>
+
+          <div class="auth-form-group">
+            <div class="password-label-row">
+              <label class="form-label" for="password">Password</label>
+              <a href="#">Forgot password?</a>
+            </div>
+            <div class="password-wrapper">
+              <input class="form-input" type="password" id="password" name="password" placeholder="Enter your password"
+                required autocomplete="current-password" style="padding-right:44px">
+              <button type="button" class="password-toggle" id="pwToggle" aria-label="Toggle password">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="loginMessage" class="auth-message"></div>
+
+          <button type="submit" class="btn btn-primary btn-lg auth-submit" id="loginBtn">
+            <i data-lucide="log-in"></i>
+            Sign in
+          </button>
+
+        </form>
+
+        <div class="auth-divider">
+          <hr><span>New to Credit Ledger?</span>
+          <hr>
+        </div>
+
+        <a href="/pages/register.html" class="auth-link-btn">Create an account</a>
+
+      <button type="button" id="demoLoginBtn" class="auth-link-btn" style="margin-top:10px;border-color:var(--purple-light);color:var(--purple)">
+        Continue as Dhiru Kumar (Demo)
+      </button>
+
+        <p class="auth-disclaimer">
+          Your assessment is informational and does not constitute loan approval
+          or any lending decision by a financial institution.
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <script>
+    // Apply saved theme
+    const savedTheme = localStorage.getItem('cl-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+  <script src="/js/auth.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Password toggle
+    const pwToggle = document.getElementById('pwToggle');
+    const pwInput = document.getElementById('password');
+    if (pwToggle) {
+      pwToggle.addEventListener('click', () => {
+        const show = pwInput.type === 'password';
+        pwInput.type = show ? 'text' : 'password';
+        pwToggle.innerHTML = show
+          ? '<i data-lucide="eye-off"></i>'
+          : '<i data-lucide="eye"></i>';
+        lucide.createIcons();
+      });
+    }
+
+    // Auth form logic
+    const loginForm = document.getElementById('loginForm');
+    const loginMsg = document.getElementById('loginMessage');
+    const loginBtn = document.getElementById('loginBtn');
+
+    loginForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      loginMsg.className = 'auth-message';
+      loginMsg.textContent = '';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        loginMsg.textContent = 'Please fill in all fields.';
+        loginMsg.className = 'auth-message error';
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i data-lucide="loader-2" style="animation:spin 1s linear infinite"></i> Signing in…';
+      lucide.createIcons();
+
+      // Simulate session / simple localStorage auth
+      setTimeout(() => {
+        // Store minimal session
+        const users = JSON.parse(localStorage.getItem('cl_users') || '[]');
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+          localStorage.setItem('cl_session', JSON.stringify({ name: user.name, email: user.email }));
+          window.location.href = '/pages/dashboard.html';
+        } else {
+          loginMsg.textContent = 'Invalid email or password. Please try again.';
+          loginMsg.className = 'auth-message error';
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<i data-lucide="log-in"></i> Sign in';
+          lucide.createIcons();
+        }
+      }, 800);
+    });
+
+    // Demo login button
+document.getElementById('demoLoginBtn').addEventListener('click', () => {
+  localStorage.setItem('cl_session', JSON.stringify({ name: 'Dhiru Kumar', email: 'dhiru@example.com' }));
+  window.location.href = '/pages/dashboard.html';
+});
+
+// Add keyframe for spin animation
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+  </script>
+
+</body>
+
+</html>

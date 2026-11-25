@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — Credit Ledger</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo-mark"></div>
+      <div class="sidebar-brand-text">
+        <div class="sidebar-brand-name">Credit Ledger</div>
+        <div class="sidebar-brand-sub">AI Credit Risk Platform</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Workspace</div>
+      <a href="/pages/dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i>Overview</a>
+      <a href="/pages/assessment.html" class="nav-link"><i data-lucide="activity"></i>Risk Assessment</a>
+      <a href="/pages/history.html" class="nav-link"><i data-lucide="clock"></i>History</a>
+      <a href="/pages/model-insights.html" class="nav-link"><i data-lucide="brain-circuit"></i>Model Insights</a>
+      <div class="nav-divider"></div>
+      <div class="nav-section-label">Account</div>
+      <a href="/pages/profile.html" class="nav-link active"><i data-lucide="user-circle"></i>Profile</a>
+    </nav>
+    <div class="sidebar-promo">
+      <div class="sidebar-promo-title">AI-Powered Credit Risk Analysis</div>
+      <div class="sidebar-promo-desc">Predict, assess and manage loan default risk with machine learning.</div>
+    </div>
+    <div class="sidebar-bottom">
+      <a href="/" class="sidebar-logout" id="logoutBtn"><i data-lucide="log-out"></i>Log out</a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main-content">
+
+    <div class="topbar">
+      <button class="topbar-hamburger" id="hamburger"><i data-lucide="menu"></i></button>
+      <div class="topbar-search"><i data-lucide="search"></i><input type="text" placeholder="Search…" readonly></div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" id="themeToggle"><i data-lucide="sun" id="themeIcon"></i></button>
+        <div class="topbar-user" id="topbarUser" style="position:relative">
+          <div class="topbar-avatar" id="topbarAvatar">D</div>
+          <div class="topbar-user-info">
+            <div class="topbar-user-name" id="topbarName">Dhiru Kumar</div>
+            <div class="topbar-user-role">Personal profile</div>
+          </div>
+          <span class="topbar-chevron"><i data-lucide="chevron-down"></i></span>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="/pages/profile.html" class="dropdown-item"><i data-lucide="user"></i> Profile</a>
+            <div class="dropdown-divider"></div>
+            <a href="/" class="dropdown-item danger" id="dropdownLogout"><i data-lucide="log-out"></i> Log out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Profile</h1>
+          <p class="page-subtitle">Manage your account information and preferences.</p>
+        </div>
+        <div class="model-badge" style="border-color:var(--success);color:var(--success)">
+          <i data-lucide="shield-check" style="color:var(--success)"></i>
+          Account active
+        </div>
+      </div>
+
+      <!-- Hero Card -->
+      <div class="profile-hero-card">
+        <div class="profile-avatar-lg" id="profileAvatarLg">D</div>
+        <div class="profile-hero-info">
+          <div class="profile-hero-name" id="profileName">Dhiru Kumar</div>
+          <div class="profile-hero-email" id="profileEmail">dhiru@example.com</div>
+          <div class="profile-hero-badge">
+            <i data-lucide="user-check"></i>
+            <span>Credit Ledger Member</span>
+            <span style="opacity:.5">·</span>
+            <span id="profileSince">Since Nov 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="profile-grid" style="margin-bottom:20px">
+
+        <!-- Personal Information -->
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i data-lucide="user"></i>Personal Information</div></div>
+          <div class="card-body">
+            <div class="profile-field-row"><span class="label">Full Name</span><span class="value" id="pfName">Dhiru Kumar</span></div>
+            <div class="profile-field-row"><span class="label">Email Address</span><span class="value" id="pfEmail">dhiru@example.com</span></div>
+            <div class="profile-field-row" style="border:none"><span class="label">Account Type</span><span class="value">Standard Member</span></div>
+          </div>
+        </div>
+
+        <!-- Activity -->
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i data-lucide="bar-chart-2"></i>Your Activity</div></div>
+          <div class="card-body">
+            <div class="profile-field-row"><span class="label">Total Assessments</span><strong class="value" id="pfTotal" style="color:var(--purple)">0</strong></div>
+            <div class="profile-field-row"><span class="label">Low Risk Results</span><strong class="value" id="pfLow" style="color:var(--success)">0</strong></div>
+            <div class="profile-field-row" style="border:none"><span class="label">High Risk Results</span><strong class="value" id="pfHigh" style="color:var(--danger)">0</strong></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Settings Card -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header"><div class="card-title"><i data-lucide="settings"></i>Appearance &amp; Settings</div></div>
+        <div class="card-body">
+
+          <div class="theme-toggle-row">
+            <div>
+              <div style="font-size:14px;font-weight:600;color:var(--text-primary)">Dark Mode</div>
+              <div style="font-size:12.5px;color:var(--text-muted)">Switch between light and dark themes</div>
+            </div>
+            <label class="toggle-switch" title="Toggle dark mode">
+              <input type="checkbox" id="darkModeToggle">
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+
+          <div class="theme-toggle-row" style="border:none">
+            <div>
+              <div style="font-size:14px;font-weight:600;color:var(--text-primary)">Session</div>
+              <div style="font-size:12.5px;color:var(--text-muted)">Your current login session</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="signOutBtn">
+              <i data-lucide="log-out"></i> Sign out
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Security Card -->
+      <div class="card" style="background:linear-gradient(135deg,#0F1225,#1a1040);border-color:transparent;margin-bottom:20px">
+        <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px 24px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(139,92,246,.8);margin-bottom:8px">Security</div>
+            <div style="font-size:18px;font-weight:700;color:white;margin-bottom:8px">Keep your account secure.</div>
+            <p style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;max-width:480px">
+              Your assessment history and account information should remain private.
+              Never share your password or authentication credentials with anyone.
+            </p>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(34,197,94,.12);border-radius:100px;font-size:13px;font-weight:600;color:#22C55E;white-space:nowrap">
+            <i data-lucide="shield-check"></i>
+            Protected account
+          </div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="card" style="border-left:3px solid var(--warning);background:var(--warning-bg)">
+        <div class="card-body-tight">
+          <strong style="font-size:13px;color:var(--warning)">ℹ Disclaimer</strong>
+          <p style="font-size:12.5px;color:var(--text-secondary);margin-top:4px;line-height:1.55">
+            Credit Ledger provides an informational pre-assessment and is not a loan
+            approval or credit decision. Formal applications may involve lender-specific checks.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+const savedTheme = localStorage.getItem('cl-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+const session = JSON.parse(localStorage.getItem('cl_session') || 'null') || { name: 'Dhiru Kumar', email: 'dhiru@example.com' };
+
+function formatINR(n) {
+  if (!n) return '—';
+  const digits = Math.round(n).toString();
+  if (digits.length > 3) {
+    const head = digits.slice(0, -3).replace(/\B(?=(\d\d)+(?!\d))/g, ',');
+    return '₹' + head + ',' + digits.slice(-3);
+  }
+  return '₹' + digits;
+}
+
+function initProfile() {
+  if (!session) return;
+  const name = session.name || 'User';
+  const email = session.email || '';
+  const initials = name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+
+  document.getElementById('profileAvatarLg').textContent = initials;
+  document.getElementById('profileName').textContent     = name;
+  document.getElementById('profileEmail').textContent    = email;
+  document.getElementById('pfName').textContent          = name;
+  document.getElementById('pfEmail').textContent         = email;
+  document.getElementById('topbarAvatar').textContent    = initials;
+  document.getElementById('topbarName').textContent      = name;
+
+  // Since date
+  const users = JSON.parse(localStorage.getItem('cl_users') || '[]');
+  const user  = users.find(u => u.email === email);
+  if (user && user.since) {
+    const d = new Date(user.since);
+    document.getElementById('profileSince').textContent = 'Since ' + d.toLocaleDateString('en-IN', {month:'short', year:'numeric'});
+  }
+
+  // Activity
+  const assessments = JSON.parse(localStorage.getItem('cl_assessments') || '[]');
+  document.getElementById('pfTotal').textContent = assessments.length;
+  document.getElementById('pfLow').textContent   = assessments.filter(a => a.Result === 'Low Risk').length;
+  document.getElementById('pfHigh').textContent  = assessments.filter(a => a.Result === 'High Risk').length;
+}
+
+// Dark mode toggle
+const darkToggle = document.getElementById('darkModeToggle');
+darkToggle.checked = savedTheme === 'dark';
+
+darkToggle.addEventListener('change', () => {
+  const next = darkToggle.checked ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('cl-theme', next);
+  document.getElementById('themeIcon').setAttribute('data-lucide', next === 'dark' ? 'moon' : 'sun');
+  lucide.createIcons();
+});
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('cl-theme', next);
+  darkToggle.checked = next === 'dark';
+  document.getElementById('themeIcon').setAttribute('data-lucide', next === 'dark' ? 'moon' : 'sun');
+  lucide.createIcons();
+});
+
+// Sign out
+function logout() { localStorage.removeItem('cl_session'); window.location.href = '/'; }
+document.getElementById('signOutBtn').addEventListener('click', logout);
+document.getElementById('logoutBtn').addEventListener('click', e => { e.preventDefault(); logout(); });
+document.getElementById('dropdownLogout').addEventListener('click', e => { e.preventDefault(); logout(); });
+
+// Sidebar
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('show');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+});
+
+document.getElementById('topbarUser').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('userDropdown').classList.toggle('show');
+});
+document.addEventListener('click', () => document.getElementById('userDropdown').classList.remove('show'));
+
+// Init
+lucide.createIcons();
+document.getElementById('themeIcon').setAttribute('data-lucide', savedTheme === 'dark' ? 'moon' : 'sun');
+lucide.createIcons();
+initProfile();
+</script>
+
+</body>
+</html>

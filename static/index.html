@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credit Ledger — AI Credit Risk Platform</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+  <!-- ══ NAV ══ -->
+  <nav class="landing-nav">
+    <div class="landing-brand">
+      <div class="landing-brand-mark"></div>
+      <span class="landing-brand-name">Credit Ledger</span>
+    </div>
+
+    <div class="landing-nav-links">
+      <a href="#how-it-works">How it works</a>
+      <a href="#why">Why Credit Ledger</a>
+    </div>
+
+    <div class="landing-nav-actions">
+      <a href="/pages/login.html" class="btn btn-ghost btn-sm">Log in</a>
+      <a href="/pages/register.html" class="btn btn-primary btn-sm">Get started</a>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero-section" id="home">
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">AI Credit Risk Platform</div>
+      <h1 class="hero-h1">Know your loan risk<br><em>before you apply.</em></h1>
+      <p class="hero-p">
+        Understand your estimated credit risk before making a formal loan
+        application. Get a machine-learning–powered assessment based on
+        your financial profile — instantly, without approaching any lender.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/pages/register.html" class="btn btn-primary btn-lg">
+          Check my eligibility
+          <i data-lucide="arrow-right"></i>
+        </a>
+        <a href="#how-it-works" class="btn btn-secondary btn-lg">See how it works</a>
+      </div>
+
+      <div class="hero-note">
+        Informational pre-assessment · Not a loan approval
+      </div>
+    </div>
+
+    <!-- Preview Card -->
+    <div class="hero-visual">
+      <div class="preview-card">
+
+        <div class="preview-top">
+          <div>
+            <div class="preview-label">Credit Assessment</div>
+            <div class="preview-title">Your current profile</div>
+          </div>
+          <div class="preview-av">D</div>
+        </div>
+
+        <div class="preview-prob">18.4%</div>
+        <div class="preview-prob-label">Estimated default probability</div>
+
+        <span class="badge badge-low" style="font-size:14px;padding:6px 18px">
+          <i data-lucide="shield-check"></i>
+          Low Risk
+        </span>
+
+        <div class="preview-divider"></div>
+
+        <div class="preview-row">
+          <span>Decision Threshold</span>
+          <strong>24%</strong>
+        </div>
+        <div class="preview-row">
+          <span>Model</span>
+          <strong>Logistic Regression</strong>
+        </div>
+        <div class="preview-row">
+          <span>ROC-AUC</span>
+          <strong style="color:var(--purple)">0.800</strong>
+        </div>
+
+      </div>
+
+      <div class="floating-pill">
+        <i data-lucide="shield-check"></i>
+        No formal application required
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ HOW IT WORKS ══ -->
+  <section class="how-section" id="how-it-works">
+
+    <div class="how-eyebrow">How it works</div>
+    <h2 class="how-h2">A simple check before you make a bigger decision.</h2>
+
+    <div class="steps-row">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Create your profile</div>
+        <p class="step-desc">
+          Enter basic information about your income, employment, and financial
+          situation. No formal documents required.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Tell us about the loan</div>
+        <p class="step-desc">
+          Add the loan amount you're considering, its purpose, and your
+          relevant credit history information.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">Get your assessment</div>
+        <p class="step-desc">
+          Our logistic regression model estimates your default probability and
+          classifies your profile as Low or High Risk — instantly.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ WHY ══ -->
+  <section id="why" style="padding:80px 6vw;background:var(--card-bg);border-top:1px solid var(--border)">
+
+    <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center">
+
+      <div>
+        <div class="how-eyebrow">Why Credit Ledger</div>
+        <h2 style="font-size:34px;font-weight:800;letter-spacing:-.03em;color:var(--text-primary);line-height:1.2;margin-bottom:16px">
+          Make an informed decision before starting the process.
+        </h2>
+        <p style="font-size:15px;color:var(--text-secondary);line-height:1.65;margin-bottom:28px">
+          A formal loan application is a serious financial decision. Credit Ledger
+          gives you a preliminary view of your risk profile first, so you understand
+          where you stand — privately, without any lender involvement.
+        </p>
+        <a href="/pages/register.html" class="btn btn-primary btn-lg">
+          Start an assessment <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="card" style="padding:28px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <span style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)">Pre-Assessment</span>
+          <span class="badge badge-low">Model Online</span>
+        </div>
+
+        <div style="font-size:48px;font-weight:800;letter-spacing:-.05em;color:var(--text-primary);line-height:1">9.3%</div>
+        <div style="font-size:13px;color:var(--text-muted);margin:6px 0 20px">Estimated default probability</div>
+
+        <div style="height:1px;background:var(--border);margin-bottom:16px"></div>
+
+        <div class="profile-field-row" style="padding:8px 0">
+          <span class="label">Decision threshold</span>
+          <span class="value">24%</span>
+        </div>
+        <div class="profile-field-row" style="padding:8px 0;border:none">
+          <span class="label">Model verdict</span>
+          <strong style="color:var(--success)">Low Risk</strong>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ══ DISCLAIMER ══ -->
+  <section style="padding:40px 6vw;border-top:1px solid var(--border);background:var(--warning-bg)">
+    <div style="max-width:900px;margin:0 auto;display:flex;gap:16px;align-items:flex-start">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--warning);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+        <i data-lucide="alert-triangle" style="color:white;width:18px;height:18px"></i>
+      </div>
+      <div>
+        <strong style="font-size:14px;color:var(--warning)">Important Disclaimer</strong>
+        <p style="font-size:13.5px;color:var(--text-secondary);margin-top:4px;line-height:1.65">
+          Credit Ledger provides an informational pre-assessment only. It is not a loan approval,
+          rejection, or guarantee of credit eligibility. Actual lenders may use additional
+          information and perform their own checks during a formal application.
+          This model was trained on synthetic data for demonstration purposes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="landing-footer">
+    <strong>Credit Ledger</strong> · AI Credit Risk Platform &nbsp;·&nbsp;
+    <span>© 2026 Credit Ledger. Informational use only.</span>
+  </footer>
+
+<script>
+const savedTheme = localStorage.getItem('cl-theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+// If logged in, redirect to dashboard
+const session = JSON.parse(localStorage.getItem('cl_session') || 'null');
+if (session) { window.location.href = '/pages/dashboard.html'; }
+</script>
+<script>
+lucide.createIcons();
+</script>
+
+</body>
+</html>

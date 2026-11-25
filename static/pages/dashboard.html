@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overview — Credit Ledger</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <!-- ══════════════ SIDEBAR ══════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-brand">
+        <div class="sidebar-logo-mark"></div>
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand-name">Credit Ledger</div>
+          <div class="sidebar-brand-sub">AI Credit Risk Platform</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <div class="nav-section-label">Workspace</div>
+
+        <a href="/pages/dashboard.html" class="nav-link active">
+          <i data-lucide="layout-dashboard"></i>
+          Overview
+        </a>
+
+        <a href="/pages/assessment.html" class="nav-link">
+          <i data-lucide="activity"></i>
+          Risk Assessment
+        </a>
+
+        <a href="/pages/history.html" class="nav-link">
+          <i data-lucide="clock"></i>
+          History
+        </a>
+
+        <a href="/pages/model-insights.html" class="nav-link">
+          <i data-lucide="brain-circuit"></i>
+          Model Insights
+        </a>
+
+        <div class="nav-divider"></div>
+        <div class="nav-section-label">Account</div>
+
+        <a href="/pages/profile.html" class="nav-link">
+          <i data-lucide="user-circle"></i>
+          Profile
+        </a>
+
+      </nav>
+
+      <div class="sidebar-promo">
+        <div class="sidebar-promo-title">AI-Powered Credit Risk Analysis</div>
+        <div class="sidebar-promo-desc">Predict, assess and manage loan default risk with machine learning.</div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <a href="/" class="sidebar-logout" id="logoutBtn">
+          <i data-lucide="log-out"></i>
+          Log out
+        </a>
+      </div>
+
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ══════════════ MAIN ══════════════ -->
+    <div class="main-content">
+
+      <!-- Top Bar -->
+      <div class="topbar">
+        <button class="topbar-hamburger" id="hamburger" aria-label="Menu">
+          <i data-lucide="menu"></i>
+        </button>
+
+        <div class="topbar-search">
+          <i data-lucide="search"></i>
+          <input type="text" placeholder="Search assessments, applicants…" readonly onclick="this.blur()"
+            title="Search not available">
+        </div>
+
+        <div class="topbar-spacer"></div>
+
+        <div class="topbar-actions">
+          <button class="topbar-btn" id="themeToggle" title="Toggle theme">
+            <i data-lucide="sun" id="themeIcon"></i>
+          </button>
+          <button class="topbar-btn" title="Notifications (unavailable)" onclick="return false;">
+            <i data-lucide="bell"></i>
+          </button>
+
+          <div class="topbar-user" id="topbarUser" style="position:relative">
+            <div class="topbar-avatar" id="topbarAvatar">D</div>
+            <div class="topbar-user-info">
+              <div class="topbar-user-name" id="topbarName">Dhiru Kumar</div>
+              <div class="topbar-user-role">Personal profile</div>
+            </div>
+            <span class="topbar-chevron"><i data-lucide="chevron-down"></i></span>
+
+            <div class="user-dropdown" id="userDropdown">
+              <a href="/pages/profile.html" class="dropdown-item">
+                <i data-lucide="user"></i> Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="/" class="dropdown-item danger" id="dropdownLogout">
+                <i data-lucide="log-out"></i> Log out
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Body -->
+      <div class="page-body">
+
+        <!-- Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Overview</h1>
+            <p class="page-subtitle">Your Credit Ledger activity and risk summary.</p>
+          </div>
+          <a href="/pages/assessment.html" class="btn btn-primary">
+            <i data-lucide="plus"></i>
+            New Assessment
+          </a>
+        </div>
+
+        <!-- KPI Row -->
+        <div class="kpi-grid">
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <div class="kpi-label">Total Assessments</div>
+              <div class="kpi-icon purple"><i data-lucide="file-text"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiTotal">—</div>
+            <div class="kpi-sub">Completed assessments</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <div class="kpi-label">Low Risk</div>
+              <div class="kpi-icon success"><i data-lucide="shield-check"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiLow" style="color:var(--success)">—</div>
+            <div class="kpi-sub">Below threshold</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <div class="kpi-label">High Risk</div>
+              <div class="kpi-icon danger"><i data-lucide="alert-triangle"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiHigh" style="color:var(--danger)">—</div>
+            <div class="kpi-sub">Above threshold</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <div class="kpi-label">Avg. Default Prob.</div>
+              <div class="kpi-icon warning"><i data-lucide="percent"></i></div>
+            </div>
+            <div class="kpi-value" id="kpiAvg">—</div>
+            <div class="kpi-sub">Average probability</div>
+          </div>
+
+        </div>
+
+        <!-- Charts & CTA -->
+        <div class="dashboard-two-col">
+
+          <!-- Charts column -->
+          <div>
+            <div class="charts-grid">
+
+              <div class="card chart-card">
+                <div class="chart-title">
+                  <i data-lucide="pie-chart"></i>
+                  Risk Distribution
+                </div>
+                <div class="chart-wrap">
+                  <canvas id="donutChart"></canvas>
+                </div>
+              </div>
+
+              <div class="card chart-card">
+                <div class="chart-title">
+                  <i data-lucide="trending-up"></i>
+                  Probability Distribution
+                </div>
+                <div class="chart-wrap">
+                  <canvas id="probChart"></canvas>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Recent Assessments -->
+            <div class="card">
+              <div class="card-header" style="justify-content:space-between; padding-bottom:0">
+                <div class="card-title">
+                  <i data-lucide="clock"></i>
+                  Recent Assessments
+                </div>
+                <a href="/pages/history.html" class="btn btn-ghost btn-sm">View all →</a>
+              </div>
+              <div class="card-body" style="padding-top:14px">
+                <div class="table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Loan Amount</th>
+                        <th>Probability</th>
+                        <th>Verdict</th>
+                      </tr>
+                    </thead>
+                    <tbody id="recentTable">
+                      <tr>
+                        <td colspan="4" class="recent-empty">
+                          <i data-lucide="inbox"></i>
+                          <div>No assessments yet. <a href="/pages/assessment.html" style="color:var(--purple)">Start
+                              your first →</a></div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div style="display:flex;flex-direction:column;gap:20px">
+
+            <!-- CTA Card -->
+            <div class="cta-card">
+              <div
+                style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;">
+                <i data-lucide="plus" style="color:white;width:22px;height:22px"></i>
+              </div>
+              <div class="cta-card-title">Thinking about a loan?</div>
+              <p class="cta-card-desc">Run a new pre-assessment before making a formal application to any lender.</p>
+              <a href="/pages/assessment.html" class="btn btn-white btn-sm">
+                Start assessment →
+              </a>
+            </div>
+
+            <!-- Model Info -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i data-lucide="cpu"></i>Model Information</div>
+              </div>
+              <div class="card-body">
+                <div class="profile-field-row">
+                  <span class="label">Model</span>
+                  <span class="value">Logistic Regression</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="label">ROC-AUC</span>
+                  <span class="value" style="color:var(--purple);font-weight:700">0.800</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="label">Threshold</span>
+                  <span class="value">24%</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="label">KS Statistic</span>
+                  <span class="value">0.461</span>
+                </div>
+                <div class="profile-field-row" style="border:none">
+                  <span class="label">Training samples</span>
+                  <span class="value">48,000</span>
+                </div>
+                <a href="/pages/model-insights.html" class="btn btn-secondary btn-sm w-full" style="margin-top:14px">
+                  View Model Insights →
+                </a>
+              </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="card" style="border-left:3px solid var(--warning);background:var(--warning-bg)">
+              <div class="card-body-tight">
+                <div style="font-size:12.5px;font-weight:700;color:var(--warning);margin-bottom:5px">⚠ Disclaimer</div>
+                <p style="font-size:12.5px;color:var(--text-secondary);line-height:1.55">
+                  Credit Ledger provides an informational pre-assessment only. It is not a loan
+                  approval, rejection, or guarantee of credit eligibility.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /page-body -->
+    </div><!-- /main-content -->
+  </div><!-- /app-shell -->
+
+  <div id="toast-container"></div>
+
+  <script>
+    // ── Theme ──
+    const savedTheme = localStorage.getItem('cl-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+// ── Session (default to Dhiru Kumar if not logged in) ──
+const session = JSON.parse(localStorage.getItem('cl_session') || 'null') || { name: 'Dhiru Kumar', email: 'dhiru@example.com' };
+
+    // ── Populate user ──
+    function initUser() {
+      if (!session) return;
+      const name = session.name || 'User';
+      const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('topbarAvatar').textContent = initials;
+      document.getElementById('topbarName').textContent = name;
+    }
+
+    // ── History ──
+    function getHistory() {
+      return JSON.parse(localStorage.getItem('cl_assessments') || '[]');
+    }
+
+    function populateKPIs() {
+      const history = getHistory();
+      const total = history.length;
+      const low = history.filter(a => a.Result === 'Low Risk').length;
+      const high = history.filter(a => a.Result === 'High Risk').length;
+      const avg = total
+        ? (history.reduce((s, a) => s + (a.default_probability || 0), 0) / total * 100).toFixed(1) + '%'
+        : '—';
+
+      document.getElementById('kpiTotal').textContent = total || '0';
+      document.getElementById('kpiLow').textContent = low || '0';
+      document.getElementById('kpiHigh').textContent = high || '0';
+      document.getElementById('kpiAvg').textContent = avg;
+    }
+
+    function formatINR(n) {
+      if (!n) return '—';
+      const digits = Math.round(n).toString();
+      if (digits.length > 3) {
+        const head = digits.slice(0, -3).replace(/\B(?=(\d\d)+(?!\d))/g, ',');
+        return '₹' + head + ',' + digits.slice(-3);
+      }
+      return '₹' + digits;
+    }
+
+    function populateRecentTable() {
+      const history = getHistory().slice(-5).reverse();
+      const tbody = document.getElementById('recentTable');
+      if (!history.length) return;
+      tbody.innerHTML = history.map(a => {
+        const isHigh = a.Result === 'High Risk';
+        const pct = ((a.default_probability || 0) * 100).toFixed(1) + '%';
+        const date = new Date(a.timestamp || Date.now()).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        return `<tr>
+      <td>${date}</td>
+      <td>${formatINR(a.loan_amnt)}</td>
+      <td><strong>${pct}</strong></td>
+      <td><span class="badge ${isHigh ? 'badge-high' : 'badge-low'}">${a.Result}</span></td>
+    </tr>`;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    // ── Charts ──
+    function getColor(scheme) {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      return {
+        gridColor: dark ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.06)',
+        textColor: dark ? '#94A3B8' : '#64748B',
+      };
+    }
+
+    let donutChartInst, probChartInst;
+
+    function initCharts() {
+      const history = getHistory();
+      const { gridColor, textColor } = getColor();
+
+      // Donut
+      const low = history.filter(a => a.Result === 'Low Risk').length;
+      const high = history.filter(a => a.Result === 'High Risk').length;
+      const dCtx = document.getElementById('donutChart').getContext('2d');
+      if (donutChartInst) donutChartInst.destroy();
+      donutChartInst = new Chart(dCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Low Risk', 'High Risk'],
+          datasets: [{
+            data: low + high > 0 ? [low, high] : [1, 0],
+            backgroundColor: ['#22C55E', '#EF4444'],
+            borderWidth: 0,
+            hoverOffset: 6,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '68%',
+          plugins: {
+            legend: { position: 'bottom', labels: { color: textColor, font: { size: 12, weight: '600' }, padding: 16, usePointStyle: true } },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}` } },
+          }
+        }
+      });
+
+      // Prob bar
+      const pCtx = document.getElementById('probChart').getContext('2d');
+      const probs = history.map(a => ((a.default_probability || 0) * 100).toFixed(1));
+      if (probChartInst) probChartInst.destroy();
+      probChartInst = new Chart(pCtx, {
+        type: 'bar',
+        data: {
+          labels: history.map((_, i) => `#${i + 1}`),
+          datasets: [{
+            label: 'Default Probability (%)',
+            data: probs.length ? probs : [0],
+            backgroundColor: probs.map(p => parseFloat(p) >= 24 ? 'rgba(239,68,68,.8)' : 'rgba(99,57,232,.75)'),
+            borderRadius: 6,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: gridColor }, ticks: { color: textColor } },
+            y: {
+              grid: { color: gridColor },
+              ticks: { color: textColor, callback: v => v + '%' },
+              min: 0, max: 100,
+            }
+          }
+        }
+      });
+    }
+
+    // ── Sidebar / Hamburger ──
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const hamburger = document.getElementById('hamburger');
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('show');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    }
+
+    hamburger.addEventListener('click', openSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // ── Theme toggle ──
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('cl-theme', t);
+      themeIcon.setAttribute('data-lucide', t === 'dark' ? 'moon' : 'sun');
+      lucide.createIcons();
+      initCharts();
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      applyTheme(cur === 'dark' ? 'light' : 'dark');
+    });
+
+    // ── User Dropdown ──
+    document.getElementById('topbarUser').addEventListener('click', e => {
+      e.stopPropagation();
+      document.getElementById('userDropdown').classList.toggle('show');
+    });
+    document.addEventListener('click', () => document.getElementById('userDropdown').classList.remove('show'));
+
+    // ── Logout ──
+    document.getElementById('logoutBtn').addEventListener('click', e => {
+      e.preventDefault();
+      localStorage.removeItem('cl_session');
+      window.location.href = '/';
+    });
+    document.getElementById('dropdownLogout').addEventListener('click', e => {
+      e.preventDefault();
+      localStorage.removeItem('cl_session');
+      window.location.href = '/';
+    });
+
+    // ── Init ──
+    lucide.createIcons();
+    applyTheme(savedTheme);
+    initUser();
+    populateKPIs();
+    populateRecentTable();
+    initCharts();
+  </script>
+
+</body>
+
+</html>
