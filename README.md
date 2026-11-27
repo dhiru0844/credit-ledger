@@ -1,6 +1,23 @@
 # Credit Risk Assessment — v4 (realistic synthetic data, rupees)
 
 Predicts the probability that a loan applicant defaults. FastAPI backend + web UI.
+## Project Screenshots
+
+![Credit Ledger landing page](Screenshot/LandingPage.png)
+
+![Registration page](Screenshot/Register.png)
+
+![Credit Ledger dashboard](Screenshot/Dashboard1.png)
+
+![Dashboard view 2](Screenshot/D2.png)
+
+![Dashboard view 3](Screenshot/D3.png)
+
+![Dashboard view 4](Screenshot/D4.png)
+
+![Credentials screen](Screenshot/Crediantials.png)
+
+![Additional project screenshot](<Screenshot/Screenshot (487).png>)
 
 ## Quick start
 
